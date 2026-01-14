@@ -6,10 +6,8 @@
   },
   // 1. Tell VS Code WHERE to go when it opens the container
   "workspaceFolder": "/reShark",
-
   // 2. Tell Docker WHERE to mount your local files
   "workspaceMount": "source=${localWorkspaceFolder},target=/reShark,type=bind,consistency=cached",
-  
   "customizations": {
     "vscode": {
       "extensions": [
@@ -31,9 +29,9 @@
           "python": false
         },
         "cline.apiProvider": "openailike",
-        "cline.openAiLike.baseUrl": "http://100.74.210.70:1234/v1",
+        "cline.openAiLike.baseUrl": "http://100.124.59.111:1234/v1",
         "cline.openAiLike.apiKey": "lm-studio",
-        "cline.openAiLike.modelId": "qwen2.5-coder-7b-instruct",
+        "cline.openAiLike.modelId": "qwen/qwen2.5-coder-14b",
         "cline.autoApproval": false,
         "python.defaultInterpreterPath": "/usr/local/bin/python",
         "python.testing.pytestEnabled": true,
@@ -42,7 +40,10 @@
         "python.linting.pylintEnabled": false,
         "python.formatting.provider": "black",
         "editor.formatOnSave": true,
-        "editor.rulers": [88, 120],
+        "editor.rulers": [
+          88,
+          120
+        ],
         "files.exclude": {
           "**/__pycache__": true,
           "**/.pytest_cache": true,

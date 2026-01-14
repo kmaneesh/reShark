@@ -56,10 +56,8 @@
     // Mounting the "Books" as Read-Write
     "source=${localWorkspaceFolder}/books/rulebook,target=/workspace/rulebook,type=bind",
     "source=${localWorkspaceFolder}/books/cookbook,target=/workspace/cookbook,type=bind",
-    "source=${localWorkspaceFolder}/books/notebook,target=/workspace/notebook,type=bind"
-    // Note: pcaps directory removed as it doesn't exist yet
-    // Add this mount once you create the pcaps directory:
-    // "source=${localWorkspaceFolder}/pcaps,target=/workspace/pcaps,type=bind,readonly"
+    "source=${localWorkspaceFolder}/books/notebook,target=/workspace/notebook,type=bind",
+    "source=${localWorkspaceFolder}/pcaps,target=/workspace/pcaps,type=bind,readonly"
   ],
   "remoteUser": "reshark",
   "features": {

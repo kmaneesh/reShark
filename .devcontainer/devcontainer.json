@@ -1,0 +1,72 @@
+{
+  "name": "reShark Analysis Lab",
+  "build": {
+    "dockerfile": "../docker/Dockerfile.pcap",
+    "context": ".."
+  },
+  // 1. Tell VS Code WHERE to go when it opens the container
+  "workspaceFolder": "/reShark",
+
+  // 2. Tell Docker WHERE to mount your local files
+  "workspaceMount": "source=${localWorkspaceFolder},target=/reShark,type=bind,consistency=cached",
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "saoudrizwan.claude-dev", // Claude Dev
+        "ms-python.python",
+        "tamasfe.even-better-toml",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "ms-python.black-formatter",
+        "ms-python.debugpy",
+        "yzhang.markdown-all-in-one",
+        "streetsidesoftware.code-spell-checker"
+      ],
+      "settings": {
+        "github.copilot.enable": {
+          "*": false,
+          "plaintext": false,
+          "markdown": false,
+          "python": false
+        },
+        "cline.apiProvider": "openailike",
+        "cline.openAiLike.baseUrl": "http://100.74.210.70:1234/v1",
+        "cline.openAiLike.apiKey": "lm-studio",
+        "cline.openAiLike.modelId": "qwen2.5-coder-7b-instruct",
+        "cline.autoApproval": false,
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.testing.pytestEnabled": true,
+        "python.testing.unittestEnabled": false,
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": false,
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true,
+        "editor.rulers": [88, 120],
+        "files.exclude": {
+          "**/__pycache__": true,
+          "**/.pytest_cache": true,
+          "**/*.pyc": true
+        }
+      }
+    }
+  },
+  "mounts": [
+    // Mounting the "Books" as Read-Write
+    "source=${localWorkspaceFolder}/books/rulebook,target=/workspace/rulebook,type=bind",
+    "source=${localWorkspaceFolder}/books/cookbook,target=/workspace/cookbook,type=bind",
+    "source=${localWorkspaceFolder}/books/notebook,target=/workspace/notebook,type=bind"
+    // Note: pcaps directory removed as it doesn't exist yet
+    // Add this mount once you create the pcaps directory:
+    // "source=${localWorkspaceFolder}/pcaps,target=/workspace/pcaps,type=bind,readonly"
+  ],
+  "remoteUser": "reshark",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "username": "reshark",
+      "userUid": "1000",
+      "userGid": "1000"
+    }
+  }
+}

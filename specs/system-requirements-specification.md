@@ -11,7 +11,7 @@
 
 ### 1.1 Purpose
 
-This document specifies the functional and non-functional requirements for reShark, an autonomous protocol reverse-engineering system. It serves as the authoritative requirements baseline for both Phase 1 (OpenHands-only) and Phase 2 (LangGraph orchestration).
+This document specifies the functional and non-functional requirements for reShark, an autonomous protocol reverse-engineering system. It serves as the authoritative requirements baseline for both Phase 1 (Manual VSCode + Dev Container) and Phase 2 (OpenHands + LangGraph orchestration).
 
 ### 1.2 Scope
 
@@ -37,11 +37,13 @@ reShark reconstructs undocumented network protocol specifications from PCAP file
 - **Cookbook**: Procedural knowledge for analysis methods
 - **Golden Session**: Reference PCAP used for initial model construction
 - **Control-Plane**: Protocol state, message types, and structure (vs. payload data)
+- **Dev Container**: Containerized development environment with all tools pre-configured
 
 ### 1.4 References
 
 - reShark Constitution v2.0.0
-- OpenHands Documentation
+- VSCode Dev Containers Documentation
+- OpenHands Documentation (Phase 2)
 - LangGraph Documentation (Phase 2)
 - Wireshark/tshark User Guides
 - Scapy Documentation
@@ -65,8 +67,8 @@ reShark reconstructs undocumented network protocol specifications from PCAP file
 │           reShark System                │
 │                                              │
 │  ┌────────────┐  ┌──────────────┐          │
-│  │ OpenHands  │  │  LangGraph   │ (Phase 2)│
-│  │ (Executor) │  │ (Orchestrator│          │
+│  │  VSCode +  │  │  OpenHands + │ (Phase 2)│
+│  │DevContainer│  │  LangGraph   │          │
 │  └─────┬──────┘  └───────┬──────┘          │
 │        │                  │                  │
 │  ┌─────▼──────────────────▼─────┐          │
@@ -105,11 +107,12 @@ reShark reconstructs undocumented network protocol specifications from PCAP file
    - Cookbook (Markdown documentation)
    - Analysis logs and archives
 
-2. **Execution (OpenHands + Docker)**
-   - Sandboxed tool execution
-   - File change auditing
-   - Reproducible environments
-   - Tool isolation
+2. **Execution (VSCode + Dev Container)**
+   - Direct Python execution
+   - Interactive debugging
+   - Reproducible dev environment
+   - Manual orchestration scripts
+   - Direct tool access (tshark, scapy)
 
 3. **Intelligence (Scopes)**
    - Observer: Measures and detects patterns
@@ -119,10 +122,12 @@ reShark reconstructs undocumented network protocol specifications from PCAP file
 
 ### 2.3 System Architecture (Phase 2 Additions)
 
+- OpenHands provides autonomous execution environment
 - LangGraph orchestrates Scope execution
 - Patternbook (Qdrant) adds vector similarity
 - Reduced human operator involvement
 - Multi-protocol parallel analysis
+- MCP protocol for advanced tool integration
 
 ---
 
@@ -216,9 +221,11 @@ reShark reconstructs undocumented network protocol specifications from PCAP file
 
 ### 3.7 Tool Integration
 
-**REQ-TOOL-001**: System SHALL expose `tshark`, `scapy`, `numpy`, `scipy`, `pandas` via MCP.
+**REQ-TOOL-001** (Phase 1): System SHALL provide direct Python access to `tshark`, `scapy`, `numpy`, `scipy`, `pandas`.
 
-**REQ-TOOL-002**: System SHALL execute tools in Docker-isolated environment.
+**REQ-TOOL-002**: System SHALL execute tools in containerized environment (dev container for Phase 1, Docker for Phase 2).
+
+**REQ-TOOL-003** (Phase 2): System SHALL expose tools via MCP protocol for OpenHands integration.
 
 **REQ-TOOL-003**: System SHALL mount PCAPs as read-only unless write authority granted.
 
@@ -230,17 +237,21 @@ reShark reconstructs undocumented network protocol specifications from PCAP file
 
 ### 3.8 Orchestration
 
-**REQ-ORCH-001** (Phase 1): Human operator SHALL initiate analysis workflows via scripts.
+**REQ-ORCH-001** (Phase 1): Human operator SHALL initiate analysis workflows via Python scripts in VSCode.
 
 **REQ-ORCH-002** (Phase 1): System SHALL provide workflow templates in Cookbook.
 
 **REQ-ORCH-003** (Phase 1): Scopes SHALL be invoked as Python modules with explicit contracts.
 
-**REQ-ORCH-004** (Phase 2): LangGraph SHALL orchestrate Scope execution.
+**REQ-ORCH-004** (Phase 1): System SHALL support interactive debugging and inspection of Scope execution.
 
-**REQ-ORCH-005** (Phase 2): System SHALL support autonomous multi-PCAP campaigns.
+**REQ-ORCH-005** (Phase 2): OpenHands SHALL provide autonomous execution environment.
 
-**REQ-ORCH-006** (Phase 2): Human operator SHALL provide oversight via checkpoints.
+**REQ-ORCH-006** (Phase 2): LangGraph SHALL orchestrate Scope execution.
+
+**REQ-ORCH-007** (Phase 2): System SHALL support autonomous multi-PCAP campaigns.
+
+**REQ-ORCH-008** (Phase 2): Human operator SHALL provide oversight via checkpoints.
 
 ### 3.9 Reporting and Output
 

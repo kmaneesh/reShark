@@ -2,8 +2,9 @@
 
 **Feature Branch**: `001-phase1-mvp-tasks`  
 **Created**: 2026-01-11  
+**Updated**: 2026-01-14  
 **Status**: Draft  
-**Input**: Implement Phase 1 foundation with manual orchestration, core scopes, memory system, and basic protocol analysis workflow
+**Input**: Implement Phase 1 foundation with manual orchestration in VSCode + Dev Container + Cline, establishing core scopes, memory system, and basic protocol analysis workflow
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -152,26 +153,36 @@ As a security researcher, I need all hypotheses to be validated against multiple
 
 ## Assumptions
 
-- Phase 1 uses manual orchestration via scripts; autonomous orchestration is deferred to Phase 2
+- Phase 1 uses VSCode + Dev Container + Cline for manual, interactive development
+- Direct Python tool wrappers replace MCP protocol (MCP deferred to Phase 2)
+- Autonomous orchestration with OpenHands + LangGraph is deferred to Phase 2
 - Patternbook (vector similarity) is not implemented in Phase 1
 - Focus is on binary protocols; text-based protocols are secondary
 - Synthetic protocol generation is available for testing
-- Execution environment provides necessary analysis tools (packet analyzers, statistical libraries)
+- Dev container provides necessary analysis tools (tshark, scapy, statistical libraries)
+- Interactive debugging and data inspection capabilities are critical for Phase 1
 
 ## Out of Scope
 
-- Autonomous workflow orchestration (Phase 2)
+- Autonomous execution with OpenHands (Phase 2)
+- LangGraph workflow orchestration (Phase 2)
+- MCP protocol tool integration (Phase 2)
 - Patternbook vector similarity memory (Phase 2)
 - Multi-protocol concurrent analysis (Phase 2)
 - Live traffic capture (always requires PCAP files)
 - Encrypted protocol analysis
 - Vulnerability discovery or exploitation
 - Payload semantics analysis (focus is control-plane only)
+- Production deployment automation
 
 ## Dependencies
 
-- Execution environment with containerized tools
-- Package manager for dependency management
+- VSCode with Dev Containers extension
+- Cline extension for AI-assisted development
+- Dev container with Python 3.11+, tshark, tcpdump
+- Poetry for Python dependency management
+- pytest for testing framework
+- Docker/Podman for dev container runtime
 - Test framework for validation suite execution
 - PCAP analysis tools (packet analyzer, packet manipulation libraries)
 - Statistical analysis libraries

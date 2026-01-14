@@ -12,7 +12,7 @@
 
 ### 1.1 Purpose
 
-This document provides the technical design for implementing reShark, detailing architecture, components, interfaces, and data structures for both Phase 1 (OpenHands-only) and Phase 2 (LangGraph orchestration).
+This document provides the technical design for implementing reShark, detailing architecture, components, interfaces, and data structures for both Phase 1 (VSCode + Dev Container manual workflows) and Phase 2 (OpenHands + LangGraph autonomous orchestration).
 
 ### 1.2 Scope
 
@@ -43,16 +43,16 @@ This design covers:
 │                    reShark System                      │
 │                                                             │
 │  ┌─────────────────────────────────────────────────────┐  │
-│  │              OpenHands Execution Layer               │  │
+│  │         VSCode + Cline Development Layer             │  │
 │  │                                                       │  │
 │  │  ┌───────────────────────────────────────────────┐  │  │
-│  │  │         Docker Container Sandbox              │  │  │
+│  │  │         Dev Container Environment             │  │  │
 │  │  │                                               │  │  │
 │  │  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  │  │  │
 │  │  │  │  tshark  │  │  scapy   │  │  numpy   │  │  │  │
 │  │  │  └──────────┘  └──────────┘  └──────────┘  │  │  │
 │  │  │                                               │  │  │
-│  │  │              MCP Tool Layer                   │  │  │
+│  │  │          Direct Python Access                 │  │  │
 │  │  └───────────────────────────────────────────────┘  │  │
 │  └─────────────────────────────────────────────────────┘  │
 │                                                             │
@@ -103,9 +103,9 @@ analyze_protocol.py (Orchestration Script)
       ↓
 Observer Scope
       │
-      │ 3. Calls tshark via MCP
+      │ 3. Calls tshark directly (subprocess)
       ↓
-MCP Tool Layer → tshark execution → PCAP parsed
+tshark execution → PCAP parsed
       │
       │ 4. Returns stream data
       ↓
@@ -168,11 +168,17 @@ Rulebook/tests/test_protocol_v1.py
 ### 2.3 Phase 2 Architecture Changes
 
 ```
-Phase 1 Architecture
+Phase 1 Architecture (VSCode + Dev Container)
+      +
+OpenHands Autonomous Execution
+      │
+      │ Replaces manual script execution
+      │ Provides autonomous tool calling
+      │ MCP protocol integration
       +
 LangGraph Orchestration Layer
       │
-      │ Replaces workflow scripts
+      │ Replaces manual workflow scripts
       │ Manages Scope state transitions
       │
       ├─ Observer Node
@@ -362,8 +368,8 @@ class Observer(Scope):
     
     def _extract_streams(self, pcap_path: str, 
                         filter_expr: str = None) -> List[bytes]:
-        """Extract byte streams using tshark via MCP."""
-        # MCP call to tshark
+        """Extract byte streams using tshark directly."""
+        # Direct tshark subprocess call
         cmd = ["tshark", "-r", pcap_path, "-T", "fields", 
                "-e", "data.data"]
         if filter_expr:
@@ -735,7 +741,7 @@ def test_{hypothesis['type']}(pcap_file):
         
         try:
             # Parse PCAP and apply test logic
-            # This would invoke scapy/tshark via MCP
+            # This invokes scapy/tshark directly
             return True  # Placeholder
         except AssertionError:
             return False
@@ -1047,8 +1053,9 @@ reshark/
 │   └── promote_to_rulebook.py
 │
 ├── tools/                       # Tool wrappers
-│   ├── mcp_client.py
-│   └── tshark_wrapper.py
+│   ├── __init__.py
+│   ├── pcap_tools.py           # Tshark and Scapy wrappers
+│   └── statistics.py           # Statistical utilities
 │
 ├── tests/                       # System tests
 │   ├── test_observer.py
@@ -1056,7 +1063,11 @@ reshark/
 │   ├── test_validator.py
 │   └── test_archivist.py
 │
-├── docker/                      # Execution environment
+├── .devcontainer/               # VSCode dev container config
+│   ├── devcontainer.json
+│   └── Dockerfile
+│
+├── docker/                      # Phase 2: Production deployment
 │   ├── Dockerfile
 │   ├── docker-compose.yml
 │   └── tools.txt
@@ -1149,63 +1160,53 @@ reshark/
 }
 ```
 
-### 3.3 Tool Integration (MCP Layer)
+### 3.3 Tool Integration Layer
 
-#### 3.3.1 MCP Client
+#### 3.3.1 Direct Tool Wrappers
 
 ```python
-# reshark/tools/mcp_client.py
+# reshark/tools/pcap_tools.py
 
 from typing import Dict, Any, List
 import subprocess
 import json
+from pathlib import Path
 
-class MCPClient:
+class TsharkWrapper:
     """
-    Client for interacting with MCP tool servers.
-    Provides unified interface to tshark, scapy, etc.
+    Direct wrapper for tshark command-line tool.
+    Provides consistent interface for PCAP analysis.
     """
     
-    def __init__(self, server_url: str = "http://localhost:8080"):
-        self.server_url = server_url
+    def __init__(self, tshark_path: str = "tshark"):
+        self.tshark_path = tshark_path
     
-    def call_tool(self, tool_name: str, parameters: Dict[str, Any]) -> Any:
+    def extract_streams(self, pcap_path: Path, filter_expr: str = None,
+                       fields: List[str] = None) -> Dict[str, Any]:
         """
-        Call MCP tool with parameters.
+        Extract data from PCAP file.
         
         Args:
-            tool_name: Name of tool (e.g., "tshark", "scapy")
-            parameters: Tool-specific parameters
+            pcap_path: Path to PCAP file
+            filter_expr: Optional Wireshark display filter
+            fields: Optional list of fields to extract
             
         Returns:
-            Tool output (parsed)
+            Parsed output from tshark
         """
-        # In real implementation, would use MCP protocol
-        # For now, simplified direct execution
+        cmd = [self.tshark_path, "-r", str(pcap_path)]
         
-        if tool_name == "tshark":
-            return self._call_tshark(parameters)
-        elif tool_name == "scapy":
-            return self._call_scapy(parameters)
-        else:
-            raise ValueError(f"Unknown tool: {tool_name}")
-    
-    def _call_tshark(self, params: Dict) -> Dict:
-        """Execute tshark command."""
-        cmd = ["tshark"]
+        if filter_expr:
+            cmd.extend(["-Y", filter_expr])
         
-        if "pcap" in params:
-            cmd.extend(["-r", params["pcap"]])
-        
-        if "filter" in params:
-            cmd.extend(["-Y", params["filter"]])
-        
-        if "fields" in params:
+        if fields:
             cmd.extend(["-T", "fields"])
-            for field in params["fields"]:
+            for field in fields:
                 cmd.extend(["-e", field])
+        else:
+            cmd.extend(["-T", "fields", "-e", "data.data"])
         
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         
         return {
             "stdout": result.stdout,
@@ -1213,11 +1214,51 @@ class MCPClient:
             "returncode": result.returncode
         }
     
-    def _call_scapy(self, params: Dict) -> Dict:
-        """Execute scapy operations."""
-        # Would use scapy programmatically
-        # Placeholder for now
-        return {"result": "scapy_output"}
+    def get_stream_count(self, pcap_path: Path) -> int:
+        """Count TCP/UDP streams in PCAP."""
+        cmd = [self.tshark_path, "-r", str(pcap_path), "-q", "-z", "conv,tcp"]
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        # Parse conversation statistics
+        return len([l for l in result.stdout.split('\n') if '<->' in l])
+
+
+class ScapyWrapper:
+    """
+    Wrapper for scapy-based PCAP manipulation.
+    """
+    
+    def __init__(self):
+        try:
+            from scapy.all import rdpcap, IP, TCP, UDP
+            self.rdpcap = rdpcap
+            self.IP = IP
+            self.TCP = TCP
+            self.UDP = UDP
+        except ImportError:
+            raise RuntimeError("scapy not installed. Install via: pip install scapy")
+    
+    def read_pcap(self, pcap_path: Path) -> List:
+        """Read PCAP file and return packet list."""
+        return self.rdpcap(str(pcap_path))
+    
+    def extract_payloads(self, pcap_path: Path, protocol: str = "TCP") -> List[bytes]:
+        """Extract raw payloads from PCAP."""
+        packets = self.read_pcap(pcap_path)
+        payloads = []
+        
+        for pkt in packets:
+            if protocol == "TCP" and self.TCP in pkt:
+                if hasattr(pkt[self.TCP], 'payload'):
+                    payload = bytes(pkt[self.TCP].payload)
+                    if payload:
+                        payloads.append(payload)
+            elif protocol == "UDP" and self.UDP in pkt:
+                if hasattr(pkt[self.UDP], 'payload'):
+                    payload = bytes(pkt[self.UDP].payload)
+                    if payload:
+                        payloads.append(payload)
+        
+        return payloads
 ```
 
 ### 3.4 Orchestration Layer (Phase 1)
@@ -1682,7 +1723,68 @@ def test_validation_requirements():
 
 ## 7. Deployment and Configuration
 
-### 7.1 Docker Environment
+### 7.1 Phase 1: Dev Container Environment
+
+```json
+// .devcontainer/devcontainer.json
+
+{
+  "name": "reShark Development",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "ms-python.black-formatter",
+        "continue.continue"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.testing.pytestEnabled": true,
+        "python.linting.enabled": true,
+        "editor.formatOnSave": true
+      }
+    }
+  },
+  "mounts": [
+    "source=${localWorkspaceFolder}/workspace,target=/workspace,type=bind",
+    "source=${localWorkspaceFolder}/books,target=/app/books,type=bind"
+  ],
+  "postCreateCommand": "pip install -e . && pip install pytest pytest-cov",
+  "remoteUser": "vscode"
+}
+```
+
+```dockerfile
+# .devcontainer/Dockerfile
+
+FROM python:3.11-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    tshark \
+    tcpdump \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd -m -s /bin/bash vscode
+
+# Install Poetry
+RUN pip install poetry
+
+# Set working directory
+WORKDIR /app
+
+# Switch to non-root user
+USER vscode
+```
+
+### 7.2 Phase 2: Docker Deployment
 
 ```dockerfile
 # docker/Dockerfile

@@ -1,7 +1,7 @@
 {
   "name": "reShark Analysis Lab",
   "build": {
-    "dockerfile": "../docker/Dockerfile.pcap",
+    "dockerfile": "../labs/Dockerfile.pcap",
     "context": ".."
   },
   // 1. Tell VS Code WHERE to go when it opens the container

@@ -1,7 +1,7 @@
 # reShark Complete Implementation Plan
 
 **Version**: 2.0.0  
-**Date**: 2026-01-11  
+**Date**: 2026-01-15  
 **Status**: Draft  
 **Scope**: Full Project (Phase 1 + Phase 2)  
 **Governed By**: reShark Constitution v2.0.0
@@ -10,39 +10,44 @@
 
 ## 1. Executive Summary
 
-This plan details the complete implementation roadmap for reShark across both phases:
-- **Phase 1** (Weeks 1-8): Foundation with OpenHands-only orchestration
-- **Phase 2** (Weeks 9-16): Autonomous orchestration with LangGraph and Patternbook
+This plan details the complete implementation roadmap for reShark v2.0.0 - a general-purpose reverse engineering framework with dual operating modes:
+
+- **Phase 1** (Weeks 1-8): HITL Foundation - Dev Container + Cline + Local LLM
+- **Phase 2** (Weeks 9-16): Autonomous Mode - OpenHands + Patternbook + Parallel Processing
 
 **Total Duration Estimate**: 16 weeks (4 months, 1 developer)  
-**Final Success Metric**: Autonomous analysis of 5+ concurrent protocols with minimal human intervention
+**Final Success Metric**: Framework can analyze diverse data formats (PCAP, binaries, firmware, file formats) in both HITL and Autonomous modes with shared knowledge base
 
 ---
 
 ## 2. Project Objectives
 
-### 2.1 Phase 1 Goals (Foundation)
+### 2.1 Phase 1 Goals (HITL Foundation)
 
-1. **Establish Execution Environment**: OpenHands + Docker toolchain operational
-2. **Implement Core Memory**: Notebook, Rulebook, Cookbook with enforced boundaries
-3. **Build Core Scopes**: Observer, Theorist, Validator, Archivist as Python modules
-4. **Validate Epistemic Framework**: Demonstrate evidence-based protocol reconstruction
-5. **Create Workflow Templates**: Documented procedures in Cookbook
+1. **Establish HITL Environment**: Dev Container + Cline + Ollama Local LLM operational
+2. **Implement Books System**: Notebook (sessions), Rulebook (grammars), Cookbook (methods), Skills (markdown procedures)
+3. **Build Core Agents**: Interpreters, Orchestration, Validation, Scopes as Python modules
+4. **Create Markdown Skills Library**: Documented analysis methodologies for LLM guidance
+5. **Develop Tool Wrappers**: tshark, binutils, scapy, hexdump, entropy calculators
+6. **Validate Knowledge Capture**: Human + Cline perform analysis, document findings in Books
 
-### 2.2 Phase 2 Goals (Scale & Autonomy)
+### 2.2 Phase 2 Goals (Autonomous Mode)
 
-1. **LangGraph Orchestration**: Replace manual scripts with autonomous workflow
-2. **Patternbook Implementation**: Vector similarity for cross-protocol learning
-3. **Multi-Protocol Analysis**: Support concurrent analysis of 5+ protocols
-4. **Reduce Human Involvement**: Automated decision-making with oversight checkpoints
-5. **Performance Optimization**: Scale to production workloads
+1. **OpenHands Integration**: Autonomous execution environment with Local LLM
+2. **Patternbook Implementation**: Qdrant vector database for cross-artifact pattern learning
+3. **Skills-Driven Autonomy**: Agents read markdown skills to execute analysis procedures
+4. **Multi-Artifact Analysis**: Support concurrent analysis of 5+ different artifacts
+5. **Bidirectional Learning**: HITL discoveries → Skills → Autonomous application
+6. **Performance Optimization**: Scale to production workloads
 
 ### 2.3 Overall Success Criteria
 
-- [ ] Complete end-to-end protocol analysis from PCAP to validated Rulebook grammar
+- [ ] Complete end-to-end analysis from unknown artifact to documented grammar/structure
 - [ ] Constitutional compliance verified across all components
-- [ ] At least 3 real-world protocols successfully analyzed (1 in Phase 1, 2+ in Phase 2)
-- [ ] System handles 5 concurrent protocol analyses (Phase 2)
+- [ ] At least 3 diverse artifacts analyzed: 1 PCAP protocol, 1 binary format, 1 file format (1 in Phase 1, 2+ in Phase 2)
+- [ ] Skills library contains 12+ documented methodologies across categories (protocol, pattern, binary, grammar)
+- [ ] Autonomous mode successfully applies skills learned in HITL mode
+- [ ] System handles 5 concurrent artifact analyses (Phase 2)
 - [ ] Documentation complete for both phases
 - [ ] Test coverage >80% for all modules
 - [ ] Open-source release ready (infrastructure only, per Constitution Section 7)
@@ -51,33 +56,33 @@ This plan details the complete implementation roadmap for reShark across both ph
 
 ## 3. Phase Breakdown Overview
 
-### Phase 1: Foundation (Weeks 1-8)
+### Phase 1: HITL Foundation (Weeks 1-8)
 
 | Week | Focus Area | Key Deliverable |
 |------|-----------|-----------------|
-| 1-2 | Infrastructure | Repository, Docker, OpenHands, MCP |
-| 3 | Memory System | Notebook, Rulebook, Cookbook |
-| 4 | Observer Scope | Statistical analysis, PCAP parsing |
-| 5 | Theorist Scope | Hypothesis generation |
-| 6 | Validator Scope | Cross-PCAP validation |
-| 7 | Archivist Scope | Promotion, archival |
-| 8 | Integration | Workflows, testing, documentation |
+| 1-2 | Infrastructure | Dev Container, Ollama, Cline setup |
+| 3 | Books System | Notebook, Rulebook, Cookbook, Skills structure |
+| 4 | Agents - Interpreters | Data parsing and extraction agents |
+| 5 | Agents - Orchestration | Workflow and task management |
+| 6 | Agents - Validation | Cross-sample validation agents |
+| 7 | Tools & Skills | Tool wrappers + markdown skill documentation |
+| 8 | HITL Integration | Complete HITL workflow, testing, documentation |
 
-**Phase 1 Gate Criteria**: All Phase 1 success criteria met, one complete protocol analysis demonstrated.
+**Phase 1 Gate Criteria**: All Phase 1 success criteria met, one complete artifact analysis (HITL mode) demonstrated with documented skills.
 
-### Phase 2: Scale & Autonomy (Weeks 9-16)
+### Phase 2: Autonomous Mode (Weeks 9-16)
 
 | Week | Focus Area | Key Deliverable |
 |------|-----------|-----------------|
-| 9-10 | LangGraph Integration | Graph workflow, state management |
-| 11 | Patternbook | Qdrant vector DB, embeddings |
-| 12 | Scope Adaptation | LangGraph node wrappers |
-| 13 | Multi-Protocol | Parallel analysis support |
-| 14 | Optimization | Performance tuning, caching |
-| 15 | Advanced Features | Autonomous checkpoints, learning |
-| 16 | Finalization | Testing, documentation, release prep |
+| 9-10 | OpenHands Integration | Autonomous environment, agent adaptation |
+| 11 | Patternbook | Qdrant vector DB, embeddings, pattern retrieval |
+| 12 | Skills Autonomy | Agents read/execute markdown skills autonomously |
+| 13 | Multi-Artifact | Parallel analysis support, resource management |
+| 14 | Optimization | Performance tuning, caching, efficiency |
+| 15 | Bidirectional Learning | HITL → Skills → Autonomous pipeline |
+| 16 | Finalization | Testing, documentation, release preparation |
 
-**Phase 2 Completion**: System analyzes 5 concurrent protocols autonomously with >85% validation accuracy.
+**Phase 2 Completion**: System analyzes 5 concurrent artifacts autonomously using skills learned in HITL mode, with >85% accuracy on validation tasks.
 
 ---
 
@@ -85,36 +90,35 @@ This plan details the complete implementation roadmap for reShark across both ph
 
 ---
 
-## PHASE 1: FOUNDATION (WEEKS 1-8)
+## PHASE 1: HITL FOUNDATION (WEEKS 1-8)
 
 ---
 
-### Week 1: Infrastructure Setup Part 1
+### Week 1-2: HITL Infrastructure Setup
 
 #### Objectives
+- Dev Container environment operational
+- Ollama Local LLM configured and running
+- Cline extension integrated with VS Code
 - Repository structure established
 - Python environment configured
-- Docker base environment operational
 
 #### Tasks
 
-**Day 1-2: Repository Initialization**
+**Day 1-2: Repository and Directory Structure**
 
 1. **Create Repository Structure**
    ```bash
    mkdir reshark && cd reshark
    git init
+   git branch -M main
    git remote add origin <repo-url>
    
-   # Create directory structure
-   mkdir -p {notebook,rulebook,cookbook,pcaps,scopes,orchestration,tools,tests,docker,docs}
-   mkdir -p notebook/archives
-   mkdir -p rulebook/{grammars,tests}
-   mkdir -p cookbook/{methods,examples}
-   mkdir -p pcaps/{raw,golden,synthetic}
+   # Create directory structure per v2.0.0 architecture
+   mkdir -p {books/{notebook/{sessions,archives},rulebook/{grammars,schemas},cookbook/{methods,examples},patternbook/{embeddings,queries}},agents/{interpreters,orchestration,validation,scopes},tools/{scripts},skills/{protocol,pattern,binary,grammar},labs,tests,docs,data/{input,output}}
    ```
 
-2. **Initialize Git and Documentation**
+2. **Initialize Git and Core Documentation**
    ```bash
    # Create .gitignore
    cat > .gitignore << 'EOF'
@@ -126,55 +130,181 @@ This plan details the complete implementation roadmap for reShark across both ph
    dist/
    *.egg-info/
    .env
-   workspace/notebook/session-*
-   *.pcap
-   !pcaps/synthetic/*.pcap
+   .venv/
+   books/notebook/sessions/session-*
+   data/input/*.pcap
+   data/input/*.bin
+   !data/input/samples/
+   .DS_Store
    EOF
    
    # Copy constitutional documents
    cp /path/to/constitution-v2.md docs/
-   cp /path/to/srs-v1.md docs/
-   cp /path/to/sitd-v1.md docs/
+   cp /path/to/srs-v2.md docs/
+   cp /path/to/sitd-v2.md docs/
    
    # Initial commit
    git add .
-   git commit -m "chore: initialize reShark repository structure"
+   git commit -m "chore: initialize reShark v2.0.0 repository"
    ```
 
-**Day 3-4: Python Environment**
+**Day 3-4: Dev Container Configuration**
 
-3. **Poetry Setup**
+3. **Create Dev Container Setup**
+   ```json
+   // .devcontainer/devcontainer.json
+   {
+     "name": "reShark HITL Environment",
+     "dockerComposeFile": "docker-compose.yml",
+     "service": "reshark-hitl",
+     "workspaceFolder": "/workspace",
+     
+     "customizations": {
+       "vscode": {
+         "extensions": [
+           "saoudrizwan.claude-dev",  // Cline
+           "ms-python.python",
+           "ms-python.vscode-pylance",
+           "charliermarsh.ruff",
+           "ms-toolsai.jupyter",
+           "tamasfe.even-better-toml"
+         ],
+         "settings": {
+           "python.defaultInterpreterPath": "/usr/local/bin/python",
+           "python.linting.enabled": true,
+           "python.formatting.provider": "black",
+           "terminal.integrated.defaultProfile.linux": "zsh"
+         }
+       }
+     },
+     
+     "mounts": [
+       "source=${localWorkspaceFolder}/books,target=/workspace/books,type=bind",
+       "source=${localWorkspaceFolder}/data,target=/workspace/data,type=bind"
+     ],
+     
+     "postCreateCommand": "poetry install && pre-commit install",
+     "remoteUser": "vscode"
+   }
+   ```
+
+   ```yaml
+   # .devcontainer/docker-compose.yml
+   version: '3.8'
+   
+   services:
+     reshark-hitl:
+       build:
+         context: ..
+         dockerfile: .devcontainer/Dockerfile
+       volumes:
+         - ..:/workspace:cached
+       environment:
+         - OLLAMA_HOST=http://ollama:11434
+         - PYTHONUNBUFFERED=1
+       networks:
+         - reshark-network
+       stdin_open: true
+       tty: true
+     
+     ollama:
+       image: ollama/ollama:latest
+       volumes:
+         - ollama-data:/root/.ollama
+       ports:
+         - "11434:11434"
+       networks:
+         - reshark-network
+   
+   networks:
+     reshark-network:
+       driver: bridge
+   
+   volumes:
+     ollama-data:
+   ```
+
+   ```dockerfile
+   # .devcontainer/Dockerfile
+   FROM mcr.microsoft.com/devcontainers/python:3.12-bullseye
+   
+   # Install system dependencies
+   RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+       && apt-get -y install --no-install-recommends \
+       tshark \
+       wireshark-common \
+       tcpdump \
+       binutils \
+       hexdump \
+       file \
+       zsh \
+       && apt-get clean \
+       && rm -rf /var/lib/apt/lists/*
+   
+   # Install Poetry
+   RUN pip install --no-cache-dir poetry==1.7.1
+   
+   # Configure zsh
+   RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)"
+   
+   # Set working directory
+   WORKDIR /workspace
+   
+   # Copy pyproject.toml for dependency caching
+   COPY pyproject.toml poetry.lock* ./
+   
+   RUN poetry config virtualenvs.create false \
+       && poetry install --no-interaction --no-ansi || true
+   ```
+
+4. **Python Environment Setup**
    ```bash
    # Initialize Poetry
-   poetry init --name reshark --python "^3.11"
+   poetry init --name reshark --python "^3.12"
    
    # Add core dependencies
-   poetry add numpy scipy pandas scapy pyyaml
+   poetry add \
+     numpy \
+     scipy \
+     pandas \
+     scapy \
+     pyshark \
+     pyyaml \
+     pydantic \
+     rich \
+     typer \
+     jinja2
    
    # Add dev dependencies
-   poetry add --group dev pytest pytest-cov black isort mypy ruff pre-commit
+   poetry add --group dev \
+     pytest \
+     pytest-cov \
+     pytest-asyncio \
+     black \
+     isort \
+     mypy \
+     ruff \
+     pre-commit
    
-   # Lock dependencies
+   # Lock and install
    poetry lock
    poetry install
    ```
 
-4. **Code Quality Configuration**
-   ```bash
-   # Create pyproject.toml configurations
-   cat >> pyproject.toml << 'EOF'
-   
+   ```toml
+   # Add to pyproject.toml
    [tool.black]
    line-length = 88
-   target-version = ['py311']
+   target-version = ['py312']
    
    [tool.isort]
    profile = "black"
    
    [tool.mypy]
-   python_version = "3.11"
+   python_version = "3.12"
    warn_return_any = true
    warn_unused_configs = true
+   disallow_untyped_defs = true
    
    [tool.pytest.ini_options]
    testpaths = ["tests"]
@@ -183,321 +313,125 @@ This plan details the complete implementation roadmap for reShark across both ph
    
    [tool.ruff]
    line-length = 88
-   target-version = "py311"
-   EOF
-   
-   # Setup pre-commit hooks
-   cat > .pre-commit-config.yaml << 'EOF'
-   repos:
-     - repo: https://github.com/psf/black
-       rev: 24.1.0
-       hooks:
-         - id: black
-     - repo: https://github.com/pycqa/isort
-       rev: 5.13.2
-       hooks:
-         - id: isort
-     - repo: https://github.com/pre-commit/mirrors-mypy
-       rev: v1.8.0
-       hooks:
-         - id: mypy
-   EOF
-   
-   pre-commit install
+   target-version = "py312"
+   select = ["E", "F", "I", "N", "W", "UP"]
    ```
 
-**Day 5: Docker Base Environment**
+**Day 5-6: Ollama and Cline Configuration**
 
-5. **Create Docker Configuration**
-   ```dockerfile
-   # docker/Dockerfile
-   FROM ubuntu:24.04
-   
-   # Prevent interactive prompts
-   ENV DEBIAN_FRONTEND=noninteractive
-   
-   # Install system dependencies
-   RUN apt-get update && apt-get install -y \
-       tshark \
-       tcpdump \
-       python3.11 \
-       python3-pip \
-       python3.11-venv \
-       git \
-       && rm -rf /var/lib/apt/lists/*
-   
-   # Create working directory
-   WORKDIR /app
-   
-   # Install Poetry
-   RUN pip3 install poetry
-   
-   # Copy dependency files
-   COPY pyproject.toml poetry.lock ./
-   
-   # Install Python dependencies
-   RUN poetry config virtualenvs.create false \
-       && poetry install --no-interaction --no-ansi
-   
-   # Copy application code
-   COPY reshark/ ./reshark/
-   COPY tests/ ./tests/
-   
-   # Set Python path
-   ENV PYTHONPATH=/app
-   
-   CMD ["bash"]
-   ```
-
-   ```yaml
-   # docker/docker-compose.yml
-   version: '3.8'
-   
-   services:
-     reshark:
-       build:
-         context: ..
-         dockerfile: docker/Dockerfile
-       volumes:
-         - ../workspace:/app/workspace
-         - ../pcaps:/app/pcaps:ro
-         - ../reshark:/app/reshark
-       environment:
-         - PYTHONUNBUFFERED=1
-       networks:
-         - isolated
-       stdin_open: true
-       tty: true
-   
-   networks:
-     isolated:
-       driver: bridge
-   ```
-
-6. **Build and Test Docker Environment**
+5. **Configure Ollama Local LLM**
    ```bash
-   cd docker
-   docker-compose build
-   docker-compose up -d
-   docker-compose exec reshark python3 --version
-   docker-compose exec reshark tshark --version
-   docker-compose exec reshark python3 -c "import numpy, scipy, pandas, scapy; print('All imports successful')"
+   # From dev container, test Ollama connection
+   curl http://ollama:11434/api/version
+   
+   # Pull recommended models
+   docker exec ollama ollama pull llama3.2:3b    # Fast, good for tool use
+   docker exec ollama ollama pull codellama:7b   # Code-focused
+   docker exec ollama ollama pull llama3:8b      # Balanced capability
    ```
 
-#### Deliverables
-- [ ] Repository with proper structure
-- [ ] Poetry environment with dependencies
-- [ ] Pre-commit hooks configured
-- [ ] Docker container builds successfully
-- [ ] All tools (tshark, Python) verified operational
-
-#### Validation Checkpoint
-```bash
-# Run validation script
-poetry run python scripts/validate_setup.py
-# Expected: All checks pass
-```
-
----
-
-### Week 2: Infrastructure Setup Part 2
-
-#### Objectives
-- OpenHands integration complete
-- MCP tool layer functional
-- CI/CD pipeline established
-
-#### Tasks
-
-**Day 1-3: OpenHands Integration**
-
-1. **OpenHands Setup**
-   ```bash
-   # Install OpenHands (follow latest docs)
-   # Configure workspace mounting
-   # Test execution visibility
-   
-   # Create OpenHands config
-   mkdir -p .openhands
-   cat > .openhands/config.yml << 'EOF'
-   workspace:
-     root: /app/workspace
-     mount:
-       - source: ./workspace
-         target: /app/workspace
-       - source: ./pcaps
-         target: /app/pcaps
-         readonly: true
-   
-   execution:
-     timeout: 600
-     log_level: INFO
-   
-   tools:
-     tshark:
-       path: /usr/bin/tshark
-     python:
-       path: /usr/bin/python3
-   EOF
+6. **Configure Cline Extension**
+   ```json
+   // .vscode/settings.json (created in workspace)
+   {
+     "claude-dev.apiProvider": "ollama",
+     "claude-dev.ollamaBaseUrl": "http://ollama:11434",
+     "claude-dev.ollamaModelId": "llama3.2:3b",
+     "claude-dev.maxTokens": 8192,
+     "claude-dev.enableContextFiles": true,
+     "claude-dev.contextFiles": [
+       "docs/constitution-v2.md",
+       "docs/srs-v2.md",
+       "skills/**/*.md"
+     ]
+   }
    ```
 
-2. **Test OpenHands Execution**
+7. **Create Validation Script**
    ```python
-   # scripts/test_openhands.py
-   """Test OpenHands can execute tools and track file changes."""
+   # scripts/validate_hitl_setup.py
+   """Validate HITL environment setup."""
    
-   def test_file_creation():
-       """Test that OpenHands tracks file creation."""
-       import tempfile
-       from pathlib import Path
-       
-       test_file = Path("/app/workspace/test.txt")
-       test_file.write_text("Hello from OpenHands")
-       
-       assert test_file.exists()
-       print("✓ File creation tracked")
+   import sys
+   import subprocess
+   from pathlib import Path
+   import requests
    
-   def test_tool_execution():
-       """Test that OpenHands can execute tshark."""
-       import subprocess
-       
-       result = subprocess.run(
-           ["tshark", "--version"],
-           capture_output=True,
-           text=True
-       )
-       
-       assert result.returncode == 0
-       print("✓ Tool execution successful")
+   def check_python_version():
+       """Check Python 3.12+"""
+       if sys.version_info < (3, 12):
+           print("❌ Python 3.12+ required")
+           return False
+       print(f"✓ Python {sys.version_info.major}.{sys.version_info.minor}")
+       return True
+   
+   def check_tools():
+       """Check required tools installed."""
+       tools = ["tshark", "tcpdump", "hexdump", "objdump"]
+       for tool in tools:
+           result = subprocess.run(
+               ["which", tool],
+               capture_output=True
+           )
+           if result.returncode == 0:
+               print(f"✓ {tool} installed")
+           else:
+               print(f"❌ {tool} not found")
+               return False
+       return True
+   
+   def check_ollama():
+       """Check Ollama service accessible."""
+       try:
+           response = requests.get("http://ollama:11434/api/version", timeout=5)
+           if response.status_code == 200:
+               print(f"✓ Ollama service running: {response.json()}")
+               return True
+       except Exception as e:
+           print(f"❌ Ollama not accessible: {e}")
+           return False
+       return False
+   
+   def check_directory_structure():
+       """Check required directories exist."""
+       dirs = [
+           "books/notebook/sessions",
+           "books/rulebook/grammars",
+           "books/cookbook/methods",
+           "skills/protocol",
+           "skills/pattern",
+           "agents/interpreters",
+           "tools/scripts"
+       ]
+       for d in dirs:
+           if Path(d).exists():
+               print(f"✓ {d}/")
+           else:
+               print(f"❌ {d}/ missing")
+               return False
+       return True
    
    if __name__ == "__main__":
-       test_file_creation()
-       test_tool_execution()
-       print("\n✓ All OpenHands tests passed")
+       print("Validating HITL Environment Setup\n")
+       
+       checks = [
+           check_python_version(),
+           check_tools(),
+           check_ollama(),
+           check_directory_structure()
+       ]
+       
+       if all(checks):
+           print("\n✓ All checks passed! HITL environment ready.")
+           sys.exit(0)
+       else:
+           print("\n❌ Some checks failed. Review output above.")
+           sys.exit(1)
    ```
 
-**Day 4-5: MCP Tool Layer**
+**Day 7: CI/CD Pipeline**
 
-3. **Implement MCP Client**
-   ```python
-   # reshark/tools/mcp_client.py
-   """
-   MCP Client for unified tool access.
-   Provides abstraction over tshark, scapy, and other analysis tools.
-   """
-   
-   from typing import Dict, Any, List, Optional
-   import subprocess
-   import json
-   import logging
-   from pathlib import Path
-   
-   logger = logging.getLogger(__name__)
-   
-   class MCPClient:
-       """Client for MCP tool servers."""
-       
-       def __init__(self, config: Optional[Dict] = None):
-           self.config = config or {}
-           self.tshark_path = self.config.get("tshark_path", "/usr/bin/tshark")
-       
-       def call_tool(self, tool_name: str, parameters: Dict[str, Any]) -> Dict[str, Any]:
-           """
-           Call MCP tool with parameters.
-           
-           Args:
-               tool_name: Name of tool (e.g., "tshark", "scapy")
-               parameters: Tool-specific parameters
-               
-           Returns:
-               Tool output as dictionary
-               
-           Raises:
-               ValueError: If tool is unknown
-               RuntimeError: If tool execution fails
-           """
-           logger.info(f"Calling tool: {tool_name} with params: {parameters}")
-           
-           if tool_name == "tshark":
-               return self._call_tshark(parameters)
-           elif tool_name == "scapy":
-               return self._call_scapy(parameters)
-           else:
-               raise ValueError(f"Unknown tool: {tool_name}")
-       
-       def _call_tshark(self, params: Dict) -> Dict:
-           """Execute tshark command."""
-           cmd = [self.tshark_path]
-           
-           # Input PCAP
-           if "pcap" in params:
-               if not Path(params["pcap"]).exists():
-                   raise FileNotFoundError(f"PCAP not found: {params['pcap']}")
-               cmd.extend(["-r", params["pcap"]])
-           
-           # Display filter
-           if "filter" in params:
-               cmd.extend(["-Y", params["filter"]])
-           
-           # Output format
-           if "fields" in params:
-               cmd.extend(["-T", "fields"])
-               for field in params["fields"]:
-                   cmd.extend(["-e", field])
-           
-           # Output options
-           if "json" in params and params["json"]:
-               cmd.extend(["-T", "json"])
-           
-           logger.debug(f"Executing: {' '.join(cmd)}")
-           
-           try:
-               result = subprocess.run(
-                   cmd,
-                   capture_output=True,
-                   text=True,
-                   timeout=params.get("timeout", 300)
-               )
-               
-               return {
-                   "stdout": result.stdout,
-                   "stderr": result.stderr,
-                   "returncode": result.returncode,
-                   "success": result.returncode == 0
-               }
-           except subprocess.TimeoutExpired:
-               raise RuntimeError(f"tshark execution timeout after {params.get('timeout')} seconds")
-       
-       def _call_scapy(self, params: Dict) -> Dict:
-           """Execute scapy operations programmatically."""
-           # Placeholder for scapy integration
-           # Would import and use scapy programmatically
-           return {"result": "scapy_placeholder"}
-   ```
-
-4. **Test MCP Client**
-   ```python
-   # tests/test_mcp_client.py
-   import pytest
-   from pathlib import Path
-   from reshark.tools.mcp_client import MCPClient
-   
-   def test_mcp_tshark_version():
-       """Test MCP can call tshark."""
-       client = MCPClient()
-       result = client.call_tool("tshark", {"version": True})
-       assert result["success"]
-   
-   def test_mcp_tshark_pcap_read(tmp_path):
-       """Test MCP can read PCAP files."""
-       # Create minimal synthetic PCAP for testing
-       # (implementation details)
-       pass
-   ```
-
-**Day 5: CI/CD Pipeline**
-
-5. **GitHub Actions Workflow**
+8. **GitHub Actions Workflow**
    ```yaml
    # .github/workflows/tests.yml
    name: Tests
@@ -516,21 +450,21 @@ poetry run python scripts/validate_setup.py
        - uses: actions/checkout@v4
        
        - name: Set up Python
-         uses: actions/setup-python@v4
+         uses: actions/setup-python@v5
          with:
-           python-version: '3.11'
+           python-version: '3.12'
        
        - name: Install Poetry
          run: |
-           pip install poetry
+           pip install poetry==1.7.1
            poetry install
        
        - name: Run linters
          run: |
-           poetry run black --check reshark/ tests/
-           poetry run isort --check reshark/ tests/
+           poetry run black --check .
+           poetry run isort --check .
+           poetry run ruff check .
            poetry run mypy reshark/
-           poetry run ruff check reshark/
        
        - name: Run tests
          run: |
@@ -542,50 +476,25 @@ poetry run python scripts/validate_setup.py
            files: ./coverage.xml
    ```
 
-6. **Constitutional Compliance Checker**
-   ```python
-   # scripts/check_compliance.py
-   """
-   Verify code changes comply with reShark Constitution.
-   Run as part of CI/CD and pre-commit.
-   """
-   
-   def check_memory_boundaries():
-       """Verify memory boundary rules are enforced."""
-       # Check that Scopes don't write directly to Rulebook
-       # except Archivist
-       pass
-   
-   def check_validation_requirements():
-       """Verify validation uses >= 3 PCAPs."""
-       # Scan Validator code for PCAP count checks
-       pass
-   
-   def check_evidence_logging():
-       """Verify all Scopes log evidence."""
-       # Check _log_evidence calls
-       pass
-   
-   if __name__ == "__main__":
-       print("Checking Constitutional compliance...")
-       check_memory_boundaries()
-       check_validation_requirements()
-       check_evidence_logging()
-       print("✓ All compliance checks passed")
-   ```
-
 #### Deliverables
-- [ ] OpenHands integrated and tested
-- [ ] MCP client functional with tshark
+- [ ] Dev Container configured and operational
+- [ ] Ollama Local LLM accessible and tested
+- [ ] Cline extension configured with local LLM
+- [ ] Poetry environment with all dependencies
+- [ ] Directory structure matches v2.0.0 architecture
+- [ ] Validation script passes all checks
 - [ ] CI/CD pipeline running
-- [ ] Compliance checker operational
 
 #### Validation Checkpoint
 ```bash
-# Run full validation
-poetry run pytest tests/
-poetry run python scripts/check_compliance.py
-# Expected: All tests pass, compliance verified
+# From inside Dev Container
+poetry run python scripts/validate_hitl_setup.py
+# Expected: All checks pass
+
+# Test Cline interaction
+# 1. Open Cline panel in VS Code
+# 2. Send test message: "Can you read the constitution?"
+# 3. Verify Cline responds using local LLM
 ```
 
 ---

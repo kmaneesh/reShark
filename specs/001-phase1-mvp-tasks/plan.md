@@ -393,7 +393,109 @@ Create `contracts/` with:
 
 Create `quickstart.md` with:
 
-1. **Setup (Phase 1 HITL Mode)**
+#### Getting Started: Two Paths
+
+**Path 1: Private Analysis Work (Recommended for Sensitive Protocols)**
+
+Use this path when analyzing proprietary/confidential protocols where findings must remain private:
+
+1. **Download Repository as ZIP**
+   - Visit https://github.com/kmaneesh/reShark
+   - Click "Code" → "Download ZIP"
+   - Extract to your local workspace
+   - **Why ZIP?** No git history, no accidental pushes to public repo
+
+2. **Create Your Own Private Repository**
+   ```bash
+   cd reshark-main  # Extracted directory
+   rm -rf .git      # Remove any git metadata
+   git init
+   git remote add origin <your-private-repo-url>
+   git add -A
+   git commit -m "Initial reShark framework setup"
+   git push -u origin main
+   ```
+
+3. **Configure for Private Work**
+   - Add `books/` to `.gitignore` (already configured)
+   - Add custom entries to `.gitignore`:
+     ```
+     # Private analysis data
+     books/notebook/sessions/*
+     books/rulebook/grammars/*
+     books/cookbook/methods/proprietary-*
+     
+     # Proprietary skills (keep private)
+     books/skills/proprietary/
+     
+     # Custom tools for proprietary protocols
+     tools/proprietary_*
+     
+     # Client/project-specific data
+     **/client-*
+     **/project-*
+     *.pcap
+     *.pcapng
+     ```
+
+4. **Add Your Proprietary Knowledge**
+   - Create custom skills: `books/skills/proprietary/your-protocol-analysis.md`
+   - Add proprietary tools: `tools/proprietary_parser.py`
+   - Document internal methods: `books/cookbook/methods/proprietary-workflow.md`
+   - **Your sensitive knowledge stays in YOUR repo**
+
+**Path 2: Contributing to reShark (For Framework Improvements)**
+
+Use this path when contributing general framework enhancements, bug fixes, or non-sensitive features:
+
+1. **Fork and Clone**
+   ```bash
+   # Fork https://github.com/kmaneesh/reShark on GitHub first
+   git clone https://github.com/<your-username>/reShark.git
+   cd reShark
+   git remote add upstream https://github.com/kmaneesh/reShark.git
+   ```
+
+2. **Create Feature Branch**
+   ```bash
+   git checkout -b feature/your-contribution
+   # Examples: feature/improved-entropy-analysis, fix/tool-wrapper-timeout
+   ```
+
+3. **Make Non-Sensitive Changes**
+   - Framework code: `reshark/agents/`, `reshark/books/`, `reshark/tools/`
+   - General-purpose skills: `books/skills/protocol/`, `books/skills/pattern/`
+   - Tests: `tests/agents/`, `tests/integration/`
+   - Documentation: `docs/`, `README.md`
+   - **NEVER commit**:
+     - Proprietary protocol samples
+     - Client-specific analysis results
+     - Confidential grammars or methods
+     - Private skills or tools
+
+4. **Submit Pull Request**
+   ```bash
+   git add <changed-files>
+   git commit -m "Clear description of your contribution"
+   git push origin feature/your-contribution
+   ```
+   - Open PR at https://github.com/kmaneesh/reShark/pulls
+   - Describe: What problem does this solve? How does it work?
+   - Maintainers will review and merge
+
+**Best Practices for Keeping Sensitive Data Private:**
+
+- **Use Path 1 for analysis work**, Path 2 for framework contributions
+- **Never mix**: Keep your private repo separate from your fork
+- **Regularly sync**: `git pull upstream main` in your fork to get updates
+- **Apply updates to private repo**: Cherry-pick framework improvements to your private repo as needed
+- **Review before commit**: Always check `git diff` for sensitive strings, IPs, domains, protocol specifics
+- **Use environment variables**: Store API keys, credentials, paths in `.env` (add to `.gitignore`)
+- **Separate branches**: Use `main` for framework, `private-analysis` for sensitive work in your private repo
+
+#### Setup (Phase 1 HITL Mode)
+
+1. **Development Environment**
    - Open in VS Code Dev Container: "Reopen in Container"
    - Verify Ollama running: `ollama list`
    - Install dependencies: `poetry install`
@@ -401,7 +503,7 @@ Create `quickstart.md` with:
    - Verify environment: `poetry run pytest tests/agents/test_base.py`
    - Load Cline extension and configure with Ollama endpoint
 
-2. **First Analysis (HITL with Cline)**
+#### First Analysis (HITL with Cline)
    ```bash
    # Start interactive session with Cline
    # Cline prompt: "Analyze protocol_x.pcap using DataInterpreter"
